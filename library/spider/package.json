@@ -1,0 +1,17 @@
+{
+  "name": "spider",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cheerio": "^0.22.0",
+    "cookiejar": "^2.1.0",
+    "request": "^2.76.0",
+    "routes": "^2.1.0"
+  }
+}

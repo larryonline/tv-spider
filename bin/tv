@@ -1,0 +1,14 @@
+#!/usr/bin/env node
+var app = require('../main.js');
+var program = require('commander');
+
+
+program
+  .version('0.0.1')
+  .option('-q --quiet', 'keep quiet.')
+  .parse(process.argv);
+
+var keyword = program.args[0];
+
+app(keyword);
+

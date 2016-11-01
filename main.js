@@ -16,7 +16,6 @@ spider
 	// details handler
 	// instance: vod-detail-id-12272.html
 	.route("www.mkv99.com", /^\/vod-detail-id-(\d+).html$/, function($){
-		console.log($("title").html());
 		$(".downurl script").each(function(){
 			var html = $(this).html();
 			var regexp = /(ed2k:\/\/\|file\|[a-zA-Z0-9%.\-_\u4E00-\u9FA5]+\|\d+\|[a-zA-Z0-9]+(\|[a-zA-Z0-9=:\/]+)?\|\/)/;
@@ -24,9 +23,6 @@ spider
 			if (null != ret) {
 				console.log(ret[0]);
 			}
-			
-			// var ret = .match(html);
-			// console.log(ret);
 		})
 	})
 	.showLog('info');

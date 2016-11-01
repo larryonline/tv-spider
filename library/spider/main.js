@@ -8,10 +8,10 @@ var cookiejar = require('cookiejar');
 var request = require('request');
 var cheerio = require('cheerio');
 
-var logLevels = {debug:1, info:50, error:100, 1:'debug', 50:'info', 100:'error'}
+var logLevels = {debug:1, info:50, warn:80, error:100, 1:'debug', 50:'info', 80:'warn', 100:'error'}
 
 var headers = {
-	'accept': "application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
+  'accept': "application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
   , 'accept-language': 'en-US,en;q=0.8'
   , 'accept-charset':  'ISO-8859-1,utf-8;q=0.7,*;q=0.3'
 }
@@ -62,19 +62,19 @@ Spider.prototype.request = function (url, referer) {
 	var self = this, header = copy(headers);
 
 	if (self.urls.indexOf(url) >= 0) {
-		self.emit('log', 'info', 'Already received on get request for ' + url + '. skipping.');
+		self.emit('log', 'debug', 'Already received on get request for ' + url + '. skipping.');
 		return self;
 	}
 	self.urls.push(url);
 
 	var u = urlParse(url);
 	if (!self.routes[u.host]) {
-		self.emit('log', 'info', 'No routes for host: ' + u.host + '. skipping');
+		self.emit('log', 'warn', 'No routes for host: ' + u.host + '. skipping');
 		return self;
 	}
 
 	if (!self.routes[u.host].match(u.href.slice(u.href.indexOf(u.host) + u.host.length))) {
-		self.emit('log', 'info', 'No routes for path ' + u.href.slice(u.href.indexOf(u.host) + u.host.length) + '. skipping');
+		self.emit('log', 'warn', 'No routes for path ' + u.href.slice(u.href.indexOf(u.host) + u.host.length) + '. skipping');
 		return self;
 	}
 
@@ -104,14 +104,14 @@ Spider.prototype.request = function (url, referer) {
 			headers:header,
 			pool:self.pool
 		}, function(error, response, body){
-			self.emit('log', 'info', 'Response received [' + url + ']');
+			self.emit('log', 'debug', 'Response received [' + url + ']');
 			self.emit('data', response, url);
 
 			if (response.statusCode !== 200) {
-				self.emit('log', 'info', 'Response StatusCode=' + response.statusCode + ' [' + url + ']');
+				self.emit('log', 'warn', 'Response StatusCode=' + response.statusCode + ' [' + url + ']');
 				return;
 			} else if (!response.headers['content-type'] || response.headers['content-type'].indexOf('html') === -1) {
-				self.emit('log', 'info', 'Response Content-Type does not match "html" [' + url + ']');
+				self.emit('log', 'warn', 'Response Content-Type does not match "html" [' + url + ']');
 				return;
 			}
 

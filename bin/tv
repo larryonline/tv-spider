@@ -11,4 +11,3 @@ program
 var keyword = program.args[0];
 
 app(keyword);
-
